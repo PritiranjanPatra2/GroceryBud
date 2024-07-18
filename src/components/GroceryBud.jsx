@@ -4,7 +4,7 @@ import './GroceryBud.css';
 function GroceryBud() {
     const [grocery, setGrocery] = useState([]);
     const [input, setInput] = useState("");
-    const [checkedItems, setCheckedItems] = useState({});
+    const [check, setCheck] = useState({});
     const [notification, setNotification] = useState({ message: '', type: '' });
 
     function showNotification(message, type) {
@@ -24,8 +24,8 @@ function GroceryBud() {
         showNotification('Item Added To The List', 'success');
     }
 
-    function handleCheckboxChange(index) {
-        setCheckedItems(prevState => ({
+    function toggleCheck(index) {
+        setCheck(prevState => ({
             ...prevState,
             [index]: !prevState[index]
         }));
@@ -51,28 +51,27 @@ function GroceryBud() {
                         value={input} 
                         onChange={(event) => setInput(event.target.value)} 
                         className="input-field"
+                        placeholder="Add a new item"
                     />
-                    <button onClick={groceryvalue} className="add-button">Add Item</button>
+                    <button onClick={groceryvalue} className="add-button">Add</button>
                 </div>
-                {grocery.map((item, index) => {
-                    return (
-                        <div key={index} className="grocery-item">
-                            <input 
-                                type="checkbox" 
-                                checked={checkedItems[index] || false} 
-                                onChange={() => handleCheckboxChange(index)} 
-                                className="checkbox"
-                            />
-                            <p className={checkedItems[index] ? 'item-text strikethrough' : 'item-text'}>{item}</p>
-                            <button 
-                                onClick={() => deleteItem(index)} 
-                                className="delete-button"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    )
-                })}
+                {grocery.map((item, index) => (
+                    <div key={index} className="grocery-item">
+                        <input 
+                            type="checkbox" 
+                            checked={check[index] || false} 
+                            onChange={() => toggleCheck(index)} 
+                            className="checkbox"
+                        />
+                        <p className={check[index] ? 'item-text strikethrough' : 'item-text'}>{item}</p>
+                        <button 
+                            onClick={() => deleteItem(index)} 
+                            className="delete-button"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                ))}
             </div>
         </div>
     )
